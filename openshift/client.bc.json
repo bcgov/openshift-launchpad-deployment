@@ -30,6 +30,11 @@
       "name": "API_URL",
       "description": "Public URL of server service",
       "required": true
+    },
+    {
+      "name": "IMAGE_TAG",
+      "description": "ImageStream tag for build and deploy",
+      "required": true
     }
   ],
   "objects": [
@@ -51,7 +56,7 @@
         "output": {
           "to": {
             "kind": "ImageStreamTag",
-            "name": "${APP_NAME}-client:latest",
+            "name": "${APP_NAME}-client:${IMAGE_TAG}",
             "namespace": "${NAMESPACE}"
           }
         },

@@ -31,12 +31,15 @@ jobs:
     steps:
       - name: Set env variables
         run: |
-          APP_NAME="openshift-launchpad-pr$(echo $GITHUB_REF | sed 's/.*pull\/\([0-9]*\)\/.*/\1/')"
+          PR_NUMBER="$(echo $GITHUB_REF | sed 's/.*pull\/\([0-9]*\)\/.*/\1/')"
+          APP_NAME="openshift-launchpad-pr$PR_NUMBER"
+          TAG="pr$PR_NUMBER"
           BRANCH="${{ github.event.pull_request.head.ref }}"
           NAMESPACE="${{ secrets.NAMESPACE_TEST }}"         
           REPO="https://github.com/$GITHUB_REPOSITORY"
           DATABASE="${{ secrets.DATABASE }}"
           
+          echo ::set-env name=TAG::$TAG
           echo ::set-env name=APP_NAME::$APP_NAME
           echo ::set-env name=NAMESPACE::$NAMESPACE
           echo ::set-env name=POSTGRESQL_DATABASE::$DATABASE
@@ -71,7 +74,7 @@ jobs:
         run: make create-database NAMESPACE=$NAMESPACE APP_NAME=$APP_NAME POSTGRESQL_DATABASE=$POSTGRESQL_DATABASE
 
       - name: Create server
-        run: make create-server NAMESPACE=$NAMESPACE APP_NAME=$APP_NAME REPO=$REPO BRANCH=$BRANCH
+        run: make create-server NAMESPACE=$NAMESPACE APP_NAME=$APP_NAME REPO=$REPO BRANCH=$BRANCH IMAGE_TAG=$TAG
 
       - name: Create client
-        run: make create-client NAMESPACE=$NAMESPACE APP_NAME=$APP_NAME REPO=$REPO BRANCH=$BRANCH API_URL=$API_URL
+        run: make create-client NAMESPACE=$NAMESPACE APP_NAME=$APP_NAME REPO=$REPO BRANCH=$BRANCH API_URL=$API_URL IMAGE_TAG=$TAG

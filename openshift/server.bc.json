@@ -25,6 +25,11 @@
       "name": "BRANCH",
       "description": "Branch of the boilerplate repository that should be built",
       "required": true
+    },
+    {
+      "name": "IMAGE_TAG",
+      "description": "ImageStream tag for build and deploy",
+      "required": true
     }
   ],
   "objects": [
@@ -66,7 +71,7 @@
         "output": {
           "to": {
             "kind": "ImageStreamTag",
-            "name": "${APP_NAME}-server:latest",
+            "name": "${APP_NAME}-server:${IMAGE_TAG}",
             "namespace": "${NAMESPACE}"
           }
         },
