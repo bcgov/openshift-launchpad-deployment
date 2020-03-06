@@ -14,16 +14,16 @@ create-nsp:
 	test -n "$(NAMESPACE)" # Please provide a namespace via NAMESPACE=myproject
 	test -n "$(APP_NAME)" # Please provide an app name via APP_NAME=openshift-launchpad
 	@echo "+\n++ Set network security policies \n+"
-	@oc process -f deployment/nsp.json -p NAMESPACE=$(NAMESPACE) APP_NAME=$(APP_NAME) | oc apply -n $(NAMESPACE) -f -
+	@oc process -f openshift/nsp.json -p NAMESPACE=$(NAMESPACE) APP_NAME=$(APP_NAME) | oc apply -n $(NAMESPACE) -f -
 
 create-database:
 	test -n "$(NAMESPACE)" # Please provide a namespace via NAMESPACE=myproject
 	test -n "$(APP_NAME)" # Please provide an app name via APP_NAME=openshift-launchpad
 	test -n "$(POSTGRESQL_DATABASE)" # Please provide a database name via POSTGRESQL_DATABASE=sample_db
 	@echo "+\n++ Creating OpenShift database build config and image stream...\n+"
-	@oc process -f deployment/database.bc.json -p NAMESPACE=$(NAMESPACE) APP_NAME=$(APP_NAME) | oc apply -f -
+	@oc process -f openshift/database.bc.json -p NAMESPACE=$(NAMESPACE) APP_NAME=$(APP_NAME) | oc apply -f -
 	@echo "+\n++ Creating OpenShift database deployment config, services, and routes...\n+"
-	@oc process -f deployment/database.dc.json -p NAMESPACE=$(NAMESPACE) APP_NAME=$(APP_NAME) POSTGRESQL_DATABASE=$(POSTGRESQL_DATABASE) | oc apply -n $(NAMESPACE) -f -
+	@oc process -f openshift/database.dc.json -p NAMESPACE=$(NAMESPACE) APP_NAME=$(APP_NAME) POSTGRESQL_DATABASE=$(POSTGRESQL_DATABASE) | oc apply -n $(NAMESPACE) -f -
 	@echo "+\n++ Checking status of deployment.. \n+"
 	@oc rollout status dc/${APP_NAME}-database -n $(NAMESPACE)
 
@@ -34,9 +34,9 @@ create-server:
 	test -n "$(BRANCH)" # Please provide a git branch via BRANCH=develop
 	test -n "$(IMAGE_TAG)" # Please provide IS tag name IMAGE_TAG=pr
 	@echo "+\n++ Creating OpenShift server build config and image stream...\n+"
-	@oc process -f deployment/server.bc.json -p NAMESPACE=$(NAMESPACE) APP_NAME=$(APP_NAME) IMAGE_TAG=$(IMAGE_TAG) REPO=$(REPO) BRANCH=$(BRANCH) | oc apply -n $(NAMESPACE) -f -
+	@oc process -f openshift/server.bc.json -p NAMESPACE=$(NAMESPACE) APP_NAME=$(APP_NAME) IMAGE_TAG=$(IMAGE_TAG) REPO=$(REPO) BRANCH=$(BRANCH) | oc apply -n $(NAMESPACE) -f -
 	@echo "+\n++ Creating OpenShift server deployment config, services, and routes...\n+"
-	@oc process -f deployment/server.dc.json -p NAMESPACE=$(NAMESPACE) APP_NAME=$(APP_NAME) IMAGE_TAG=$(IMAGE_TAG) | oc apply -n $(NAMESPACE) -f -
+	@oc process -f openshift/server.dc.json -p NAMESPACE=$(NAMESPACE) APP_NAME=$(APP_NAME) IMAGE_TAG=$(IMAGE_TAG) | oc apply -n $(NAMESPACE) -f -
 	@echo "+\n++ Checking status of deployment.. \n+"
 	@oc rollout status dc/${APP_NAME}-server -n $(NAMESPACE)
 
@@ -48,9 +48,9 @@ create-client:
 	test -n "$(API_URL)" # Please provide a base API URL via API_URL=myproject
 	test -n "$(IMAGE_TAG)" # Please provide IS tag name IMAGE_TAG=pr
 	@echo "+\n++ Creating OpenShift client build config and image stream...\n+"
-	@oc process -f deployment/client.bc.json -p NAMESPACE=$(NAMESPACE) APP_NAME=$(APP_NAME) IMAGE_TAG=$(IMAGE_TAG) REPO=$(REPO) BRANCH=$(BRANCH) API_URL=$(API_URL) | oc apply -n $(NAMESPACE) -f -
+	@oc process -f openshift/client.bc.json -p NAMESPACE=$(NAMESPACE) APP_NAME=$(APP_NAME) IMAGE_TAG=$(IMAGE_TAG) REPO=$(REPO) BRANCH=$(BRANCH) API_URL=$(API_URL) | oc apply -n $(NAMESPACE) -f -
 	@echo "+\n++ Creating OpenShift client deployment config, services, and routes...\n+"
-	@oc process -f deployment/client.dc.json -p NAMESPACE=$(NAMESPACE) APP_NAME=$(APP_NAME) IMAGE_TAG=$(IMAGE_TAG) | oc apply -n $(NAMESPACE) -f -
+	@oc process -f openshift/client.dc.json -p NAMESPACE=$(NAMESPACE) APP_NAME=$(APP_NAME) IMAGE_TAG=$(IMAGE_TAG) | oc apply -n $(NAMESPACE) -f -
 	@echo "+\n++ Checking status of deployment.. \n+"
 	@oc rollout status dc/${APP_NAME}-client -n $(NAMESPACE)
 
