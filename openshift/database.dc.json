@@ -1,0 +1,224 @@
+{
+  "apiVersion": "v1",
+  "kind": "Template",
+  "labels": {
+    "app": "${APP_NAME}",
+    "template": "${APP_NAME}-database"
+  },
+  "parameters": [
+    {
+      "name": "NAMESPACE",
+      "description": "The OpenShift namespace in which to deploy the database",
+      "required": true
+    },
+    {
+      "name": "APP_NAME",
+      "description": "App name that OpenShift objects will be prefixed with",
+      "required": true
+    },
+    {
+      "name": "POSTGRESQL_USER",
+      "description": "Username for PostgreSQL user, will be randomly generated if not supplied",
+      "generate": "expression",
+      "from": "user[A-Z0-9]{3}",
+      "required": true
+    },
+    {
+      "name": "POSTGRESQL_PASSWORD",
+      "description": "Password for PostgreSQL user, will be randomly generated if not supplied",
+      "generate": "expression",
+      "from": "[a-zA-Z0-9]{16}",
+      "required": true
+    },
+    {
+      "name": "POSTGRESQL_DATABASE",
+      "description": "Name of PostgreSQL database",
+      "required": true
+    }
+  ],
+  "objects": [
+    {
+      "apiVersion": "v1",
+      "kind": "Secret",
+      "metadata": {
+        "name": "${APP_NAME}-database"
+      },
+      "stringData": {
+        "database-name": "${POSTGRESQL_DATABASE}",
+        "database-password": "${POSTGRESQL_PASSWORD}",
+        "database-user": "${POSTGRESQL_USER}",
+        "database-service": "${APP_NAME}-database"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Service",
+      "metadata": {
+        "name": "${APP_NAME}-database"
+      },
+      "spec": {
+        "ports": [
+          {
+            "name": "postgresql",
+            "nodePort": 0,
+            "port": 5432,
+            "protocol": "TCP",
+            "targetPort": 5432
+          }
+        ],
+        "selector": {
+          "name": "${APP_NAME}-database"
+        },
+        "sessionAffinity": "None",
+        "type": "ClusterIP"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "PersistentVolumeClaim",
+      "metadata": {
+        "name": "${APP_NAME}-database"
+      },
+      "spec": {
+        "accessModes": [
+          "ReadWriteOnce"
+        ],
+        "resources": {
+          "requests": {
+            "storage": "1Gi"
+          }
+        }
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "DeploymentConfig",
+      "metadata": {
+        "name": "${APP_NAME}-database"
+      },
+      "spec": {
+        "replicas": 1,
+        "selector": {
+          "name": "${APP_NAME}-database"
+        },
+        "strategy": {
+          "type": "Recreate"
+        },
+        "template": {
+          "metadata": {
+            "labels": {
+              "name": "${APP_NAME}-database"
+            }
+          },
+          "spec": {
+            "containers": [
+              {
+                "env": [
+                  {
+                    "name": "POSTGRESQL_USER",
+                    "valueFrom": {
+                      "secretKeyRef": {
+                        "key": "database-user",
+                        "name": "${APP_NAME}-database"
+                      }
+                    }
+                  },
+                  {
+                    "name": "POSTGRESQL_PASSWORD",
+                    "valueFrom": {
+                      "secretKeyRef": {
+                        "key": "database-password",
+                        "name": "${APP_NAME}-database"
+                      }
+                    }
+                  },
+                  {
+                    "name": "POSTGRESQL_DATABASE",
+                    "valueFrom": {
+                      "secretKeyRef": {
+                        "key": "database-name",
+                        "name": "${APP_NAME}-database"
+                      }
+                    }
+                  }
+                ],
+                "image": " ",
+                "imagePullPolicy": "IfNotPresent",
+                "livenessProbe": {
+                  "exec": {
+                    "command": [
+                      "/usr/libexec/check-container",
+                      "--live"
+                    ]
+                  },
+                  "initialDelaySeconds": 120,
+                  "timeoutSeconds": 10
+                },
+                "name": "postgresql",
+                "ports": [
+                  {
+                    "containerPort": 5432,
+                    "protocol": "TCP"
+                  }
+                ],
+                "readinessProbe": {
+                  "exec": {
+                    "command": [
+                      "/usr/libexec/check-container"
+                    ]
+                  },
+                  "initialDelaySeconds": 5,
+                  "timeoutSeconds": 1
+                },
+                "resources": {
+                  "limits": {
+                    "memory": "512Mi"
+                  }
+                },
+                "securityContext": {
+                  "privileged": false
+                },
+                "terminationMessagePath": "/dev/termination-log",
+                "volumeMounts": [
+                  {
+                    "mountPath": "/var/lib/pgsql/data",
+                    "name": "${APP_NAME}-database-data"
+                  }
+                ]
+              }
+            ],
+            "dnsPolicy": "ClusterFirst",
+            "restartPolicy": "Always",
+            "volumes": [
+              {
+                "name": "${APP_NAME}-database-data",
+                "persistentVolumeClaim": {
+                  "claimName": "${APP_NAME}-database"
+                }
+              }
+            ]
+          }
+        },
+        "triggers": [
+          {
+            "type": "ConfigChange"
+          },
+          {
+            "imageChangeParams": {
+              "automatic": true,
+              "containerNames": [
+                "postgresql"
+              ],
+              "from": {
+                "kind": "ImageStreamTag",
+                "name": "postgresql:10",
+                "namespace": "${NAMESPACE}"
+              }
+            },
+            "type": "ImageChange"
+          }
+        ]
+      }
+    }
+  ]
+}

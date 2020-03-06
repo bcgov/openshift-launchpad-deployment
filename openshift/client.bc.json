@@ -1,0 +1,94 @@
+{
+  "apiVersion": "v1",
+  "kind": "Template",
+  "labels": {
+    "app": "${APP_NAME}",
+    "template": "${APP_NAME}-client"
+  },
+  "parameters": [
+    {
+      "name": "NAMESPACE",
+      "description": "The OpenShift namespace in which to deploy the client",
+      "required": true
+    },
+    {
+      "name": "APP_NAME",
+      "description": "App name that OpenShift objects will be prefixed with",
+      "required": true
+    },
+    {
+      "name": "REPO",
+      "description": "URL of boilerplate repository",
+      "required": true
+    },
+    {
+      "name": "BRANCH",
+      "description": "Branch of the boilerplate repository that should be built",
+      "required": true
+    },
+    {
+      "name": "API_URL",
+      "description": "Public URL of server service",
+      "required": true
+    }
+  ],
+  "objects": [
+    {
+      "apiVersion": "v1",
+      "kind": "ImageStream",
+      "metadata": {
+        "name": "${APP_NAME}-client",
+        "namespace": "${NAMESPACE}"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "BuildConfig",
+      "metadata": {
+        "name": "${APP_NAME}-client"
+      },
+      "spec": {
+        "output": {
+          "to": {
+            "kind": "ImageStreamTag",
+            "name": "${APP_NAME}-client:latest",
+            "namespace": "${NAMESPACE}"
+          }
+        },
+        "source": {
+          "contextDir": "client",
+          "git": {
+            "uri": "${REPO}",
+            "ref": "origin/${BRANCH}"
+          },
+          "type": "Git"
+        },
+        "resources": {
+          "limits": {
+            "cpu": "2",
+            "memory": "4Gi"
+          }
+        },
+        "strategy": {
+          "type": "Docker",
+          "dockerStrategy": {
+            "env": [
+              {
+                "name": "API_URL",
+                "value": "${API_URL}/api"
+              }
+            ]
+          }
+        },
+        "triggers": [
+          {
+            "type": "ImageChange"
+          },
+          {
+            "type": "ConfigChange"
+          }
+        ]
+      }
+    }
+  ]
+}
