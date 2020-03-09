@@ -34,6 +34,12 @@
       "name": "POSTGRESQL_DATABASE",
       "description": "Name of PostgreSQL database",
       "required": true
+    },
+    {
+      "name": "DATABASE_PORT",
+      "description": "Port the database will be exposed on",
+      "value": 5432,
+      "required": true
     }
   ],
   "objects": [
@@ -61,9 +67,9 @@
           {
             "name": "postgresql",
             "nodePort": 0,
-            "port": 5432,
+            "port": "${DATABASE_PORT}",
             "protocol": "TCP",
-            "targetPort": 5432
+            "targetPort": "${DATABASE_PORT}"
           }
         ],
         "selector": {
@@ -157,7 +163,7 @@
                 "name": "postgresql",
                 "ports": [
                   {
-                    "containerPort": 5432,
+                    "containerPort": "${DATABASE_PORT}",
                     "protocol": "TCP"
                   }
                 ],

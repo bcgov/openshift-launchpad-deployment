@@ -20,6 +20,12 @@
       "name": "IMAGE_TAG",
       "description": "ImageStream tag for build and deploy",
       "required": true
+    },
+    {
+      "name": "SERVER_PORT",
+      "description": "Port the server will be exposed on",
+      "value": 5000,
+      "required": true
     }
   ],
   "objects": [
@@ -108,7 +114,7 @@
                 "image": " ",
                 "ports": [
                   {
-                    "containerPort": 5000,
+                    "containerPort": "${SERVER_PORT}",
                     "protocol": "TCP"
                   }
                 ],
@@ -182,8 +188,8 @@
           {
             "name": "web",
             "protocol": "TCP",
-            "port": 5000,
-            "targetPort": 5000
+            "port": "${SERVER_PORT}",
+            "targetPort": "${SERVER_PORT}"
           }
         ],
         "selector": {
