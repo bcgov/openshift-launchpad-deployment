@@ -20,6 +20,12 @@
       "name": "IMAGE_TAG",
       "description": "ImageStream tag for build and deploy",
       "required": true
+    },
+    {
+      "name": "CLIENT_PORT",
+      "description": "Port the client will be exposed on",
+      "value": 3000,
+      "required": true
     }
   ],
   "objects": [

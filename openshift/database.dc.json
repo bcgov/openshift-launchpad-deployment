@@ -34,6 +34,12 @@
       "name": "POSTGRESQL_DATABASE",
       "description": "Name of PostgreSQL database",
       "required": true
+    },
+    {
+      "name": "DATABASE_PORT",
+      "description": "Port the database will be exposed on",
+      "value": 5432,
+      "required": true
     }
   ],
   "objects": [
