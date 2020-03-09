@@ -1,0 +1,42 @@
+# General
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Development
+node_modules
+dist
+*.swp
+.tern-port
+.nvimrc
+*.pyc
+*.ds_store
+.env
+.idea/*
+.vscode/*
+.python-version
+
+# Icon must end with two \r
+Icon
+
+# SonarQube
+.scannerwork
+
+# Thumbnails
+._*
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk

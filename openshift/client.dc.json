@@ -33,8 +33,8 @@
         "ports": [
           {
             "name": "web",
-            "port": 3000,
-            "targetPort": 3000
+            "port": "${CLIENT_PORT}",
+            "targetPort": "${CLIENT_PORT}"
           }
         ],
         "selector": {
@@ -85,7 +85,7 @@
                 "livenessProbe": {
                   "httpGet": {
                     "path": "/",
-                    "port": 3000
+                    "port": "${CLIENT_PORT}"
                   },
                   "initialDelaySeconds": 30,
                   "timeoutSeconds": 3
@@ -93,13 +93,13 @@
                 "name": "${APP_NAME}-client",
                 "ports": [
                   {
-                    "containerPort": 3000
+                    "containerPort": "${CLIENT_PORT}"
                   }
                 ],
                 "readinessProbe": {
                   "httpGet": {
                     "path": "/",
-                    "port": 3000
+                    "port": "${CLIENT_PORT}"
                   },
                   "initialDelaySeconds": 3,
                   "timeoutSeconds": 3

@@ -108,7 +108,7 @@
                 "image": " ",
                 "ports": [
                   {
-                    "containerPort": 5000,
+                    "containerPort": "${SERVER_PORT}",
                     "protocol": "TCP"
                   }
                 ],
@@ -182,8 +182,8 @@
           {
             "name": "web",
             "protocol": "TCP",
-            "port": 5000,
-            "targetPort": 5000
+            "port": "${SERVER_PORT}",
+            "targetPort": "${SERVER_PORT}"
           }
         ],
         "selector": {
