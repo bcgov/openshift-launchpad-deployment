@@ -37,13 +37,15 @@ Note that more jobs may be added and the above demonstrates only the OpenShift d
 
 Imputs to this action are supplied via the `with` property in a consumers `action.yml` file. Some inputs are required regardless of the `MODE` supplied while other are required specifically for the client or server config templates.
 
-Name       | Required | Description
------------|----------|---------------
-MODE       | All      | Either "server" or "client" depending on the desired config template
-AUTH_TOKEN | All      | Authorization token used to login to OpenShift cluster, see Authorization section of this document
-NAMESPACE  | All      | Namespace in which to build and deploy the application
-APP_NAME   | All      | Name of the application e.g. my-app-name-pr4
-API_URL    | Client   | The URL that is exposed by the route in the server application
+Name        | Required | Description
+------------|----------|---------------
+MODE        | All      | Either "server" or "client" depending on the desired config template
+AUTH_TOKEN  | All      | Authorization token used to login to OpenShift cluster, see Authorization section of this document
+NAMESPACE   | All      | Namespace in which to build and deploy the application
+APP_NAME    | All      | Name of the application e.g. my-app-name-pr4
+SERVER_PORT | None     | Port exposed by the server, defaults to 5000
+CLIENT_PORT | None     | Port exposed by the client, defaults to 3000
+API_URL     | Client   | The URL that is exposed by the route in the server application
 
 ## What Does This Action Do?
 
