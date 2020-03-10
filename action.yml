@@ -1,0 +1,27 @@
+name: Deploy to OpenShift
+description: Deploy Dockerized application to OpenShift choosing from predefined config templates
+inputs:
+  MODE:
+    description: Type of app, either "client" or "server"
+    required: true
+  AUTH_TOKEN:
+    description: OpenShift service account authorization token
+    required: true
+  NAMESPACE:
+    description: OpenShift project namespace
+    required: true
+  APP_NAME:
+    description: OpenShift app name label
+    required: true
+  API_URL:
+    description: URL of app server
+    required: false
+runs:
+  using: docker
+  image: Dockerfile
+  env:
+    MODE: ${{ inputs.MODE }}
+    AUTH_TOKEN: ${{ inputs.AUTH_TOKEN }}
+    NAMESPACE: ${{ inputs.NAMESPACE }}
+    APP_NAME: ${{ inputs.APP_NAME }}
+    API_URL: ${{ inputs.API_URL }}
