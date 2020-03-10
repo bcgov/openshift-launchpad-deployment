@@ -13,6 +13,14 @@ inputs:
   APP_NAME:
     description: OpenShift app name label
     required: true
+  SERVER_PORT:
+    description: Port exposed by the server
+    required: false
+    default: '5000'
+  CLIENT_PORT:
+    description: Port exposed by the client
+    required: false
+    default: '3000'
   API_URL:
     description: URL of app server
     required: false
@@ -24,4 +32,6 @@ runs:
     AUTH_TOKEN: ${{ inputs.AUTH_TOKEN }}
     NAMESPACE: ${{ inputs.NAMESPACE }}
     APP_NAME: ${{ inputs.APP_NAME }}
+    SERVER_PORT: ${{ inputs.SERVER_PORT }}
+    CLIENT_PORT: ${{ inputs.CLIENT_PORT }}
     API_URL: ${{ inputs.API_URL }}

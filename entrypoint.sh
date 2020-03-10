@@ -18,10 +18,10 @@ sleep 30s
 # Run relevant make command, uses MODE input to select
 case "$MODE" in
   "server")
-    make create-server NAMESPACE="$NAMESPACE" APP_NAME="$APP_NAME" REPO="https://github.com/$GITHUB_REPOSITORY" BRANCH=master IMAGE_TAG=latest SERVER_PORT=5000
+    make create-server NAMESPACE="$NAMESPACE" APP_NAME="$APP_NAME" REPO="https://github.com/$GITHUB_REPOSITORY" BRANCH=master IMAGE_TAG=latest SERVER_PORT="$SERVER_PORT"
     ;;
   "client")
-    make create-client NAMESPACE="$NAMESPACE" APP_NAME="$APP_NAME" API_URL="$API_URL" REPO="https://github.com/$GITHUB_REPOSITORY" BRANCH=master IMAGE_TAG=latest CLIENT_PORT=3000
+    make create-client NAMESPACE="$NAMESPACE" APP_NAME="$APP_NAME" API_URL="$API_URL" REPO="https://github.com/$GITHUB_REPOSITORY" BRANCH=master IMAGE_TAG=latest CLIENT_PORT="$CLIENT_PORT"
     ;;
   *)
     echo "Must specify MODE as either client or server"
