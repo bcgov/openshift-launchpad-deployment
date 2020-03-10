@@ -57,7 +57,25 @@
       "spec": {
         "strategy": {
           "type": "Rolling",
-          "activeDeadlineSeconds": 21600
+          "activeDeadlineSeconds": 21600,
+          "rollingParams": {
+            "post": {
+              "execNewPod": {
+                "metadata": {
+                  "labels": {
+                    "name": "${APP_NAME}-server"
+                  }
+                },
+                "command": [
+                  "flask",
+                  "db",
+                  "upgrade"
+                ],
+                "containerName": "${APP_NAME}-server"
+              },
+              "failurePolicy": "ignore"
+            }
+          }
         },
         "triggers": [
           {
@@ -98,6 +116,44 @@
                   {
                     "containerPort": "${SERVER_PORT}",
                     "protocol": "TCP"
+                  }
+                ],
+                "env": [
+                  {
+                    "name": "POSTGRESQL_USER",
+                    "valueFrom": {
+                      "secretKeyRef": {
+                        "key": "database-user",
+                        "name": "${APP_NAME}-database"
+                      }
+                    }
+                  },
+                  {
+                    "name": "POSTGRESQL_PASSWORD",
+                    "valueFrom": {
+                      "secretKeyRef": {
+                        "key": "database-password",
+                        "name": "${APP_NAME}-database"
+                      }
+                    }
+                  },
+                  {
+                    "name": "POSTGRESQL_DATABASE",
+                    "valueFrom": {
+                      "secretKeyRef": {
+                        "key": "database-name",
+                        "name": "${APP_NAME}-database"
+                      }
+                    }
+                  },
+                  {
+                    "name": "POSTGRESQL_SERVICE",
+                    "valueFrom": {
+                      "secretKeyRef": {
+                        "key": "database-service",
+                        "name": "${APP_NAME}-database"
+                      }
+                    }
                   }
                 ],
                 "resources": {
