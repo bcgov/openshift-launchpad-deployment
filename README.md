@@ -26,7 +26,7 @@ jobs:
         uses: bcgov/openshift-launchpad-deployment@master
         with:
           MODE: server
-          OPENSHIFT_AUTH_TOKEN_TEST: ${{ secrets.OPENSHIFT_AUTH_TOKEN_TEST }}
+          OPENSHIFT_AUTH_TOKEN_TEST: ${{ secrets.AUTH_TOKEN }}
           NAMESPACE: myproject-dev
           APP_NAME: myapp-pr${{ github.event.number }}
 ```
