@@ -27,11 +27,3 @@ inputs:
 runs:
   using: docker
   image: Dockerfile
-  env:
-    MODE: ${{ inputs.MODE }}
-    AUTH_TOKEN: ${{ inputs.AUTH_TOKEN }}
-    NAMESPACE: ${{ inputs.NAMESPACE }}
-    APP_NAME: ${{ inputs.APP_NAME }}
-    SERVER_PORT: ${{ inputs.SERVER_PORT }}
-    CLIENT_PORT: ${{ inputs.CLIENT_PORT }}
-    API_URL: ${{ inputs.API_URL }}
