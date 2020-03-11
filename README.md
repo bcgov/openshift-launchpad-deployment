@@ -6,7 +6,7 @@ This action was built specifically with [GitHub Flow](https://guides.github.com/
 
 ## Prerequisistes
 
-Applications using the pipeline must be Dockerized. This action expects to find a `Dockerfile` in the root directory of consumer projects. 
+Applications using the pipeline must be Dockerized. This action expects to find a `Dockerfile` in the root directory of consumer projects. The Docker image must expose a port via `EXPOSE {{MY_PORT_NUMBER}}` e.g. `EXPOSE 3000`.
 
 ## Getting Started
 
@@ -36,6 +36,8 @@ Note that more jobs may be added and the above demonstrates only the OpenShift d
 ## Inputs
 
 Imputs to this action are supplied via the `with` property in a consumers `action.yml` file. Some inputs are required regardless of the `MODE` supplied while other are required specifically for the client or server config templates.
+
+Please note that the port exposed by the consuming repo's `Dockerfile` must match the port supplied as the `SERVER_PORT` or `CLIENT_PORT` input, depending on the `MODE` used.
 
 Name        | Required | Description
 ------------|----------|---------------
