@@ -24,7 +24,7 @@
     {
       "name": "SERVER_PORT",
       "description": "Port the server will be exposed on",
-      "value": 5000,
+      "value": "5000",
       "required": true
     }
   ],
@@ -96,7 +96,7 @@
                 "image": " ",
                 "ports": [
                   {
-                    "containerPort": "${SERVER_PORT}",
+                    "containerPort": "${{SERVER_PORT}}",
                     "protocol": "TCP"
                   }
                 ],
@@ -132,8 +132,8 @@
           {
             "name": "web",
             "protocol": "TCP",
-            "port": "${SERVER_PORT}",
-            "targetPort": "${SERVER_PORT}"
+            "port": "${{SERVER_PORT}}",
+            "targetPort": "${{SERVER_PORT}}"
           }
         ],
         "selector": {
