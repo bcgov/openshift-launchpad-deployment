@@ -8,6 +8,8 @@ This action was built specifically with [GitHub Flow](https://guides.github.com/
 
 Applications using the pipeline must be Dockerized. This action expects to find a `Dockerfile` in the root directory of consumer projects. The Docker image must expose a port via `EXPOSE {{MY_PORT_NUMBER}}` e.g. `EXPOSE 3000`.
 
+Note that this pipeline is currently targeted at simple REST API applications and web client applications. Please review the [server](openshift/server.bc.json) and [client](openshift/client.bc.json) build config templates and deployment config templates and ensure they are appropriate for your application.
+
 ## Getting Started
 
 Dockerized applications that wish to use this action must create a GitHub actions workflow of their own. See GitHub's [documentation](https://help.github.com/en/actions/configuring-and-managing-workflows/configuring-a-workflow). As an example, save the following to your repository as `/.github/workflows/action.yml`.
@@ -47,7 +49,11 @@ NAMESPACE   | All      | Namespace in which to build and deploy the application
 APP_NAME    | All      | Name of the application e.g. my-app-name-pr4
 SERVER_PORT | None     | Port exposed by the server, must match port exposed by Dockerfile, defaults to 5000
 CLIENT_PORT | None     | Port exposed by the client, must match port exposed by Dockerfile, defaults to 3000
-API_URL     | Client   | The URL that is exposed by the route in the server application
+API_URL     | Client   | The URL that is exposed by the route in the server application, available as env var in client
+
+## Environment Variables
+
+Currently, setting arbitrary environment variables is not supported. These will need to be set in your Dockerfile using `ENV [NAME] [VALUE]`. See relevant [Docker documentation](https://docs.docker.com/engine/reference/builder/#env).
 
 ## What Does This Action Do?
 
