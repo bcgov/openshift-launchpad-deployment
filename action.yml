@@ -13,6 +13,10 @@ inputs:
   APP_NAME:
     description: OpenShift app name label
     required: true
+  BRANCH:
+    description: Branch of the application repo that is to be deployed
+    required: false
+    default: master
   SERVER_PORT:
     description: Port exposed by the server
     required: false

@@ -47,6 +47,7 @@ MODE        | All      | Either "server" or "client" depending on the desired co
 AUTH_TOKEN  | All      | Authorization token used to login to OpenShift cluster, see Authorization section of this document
 NAMESPACE   | All      | Namespace in which to build and deploy the application
 APP_NAME    | All      | Name of the application e.g. my-app-name-pr4
+BRANCH      | None     | Branch of the application repo that is to be deployed, defaults to master
 SERVER_PORT | None     | Port exposed by the server, must match port exposed by Dockerfile, defaults to 5000
 CLIENT_PORT | None     | Port exposed by the client, must match port exposed by Dockerfile, defaults to 3000
 API_URL     | Client   | The URL that is exposed by the route in the server application, available as env var in client
