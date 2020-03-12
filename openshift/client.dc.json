@@ -24,7 +24,7 @@
     {
       "name": "CLIENT_PORT",
       "description": "Port the client will be exposed on",
-      "value": 3000,
+      "value": "3000",
       "required": true
     }
   ],
@@ -39,8 +39,8 @@
         "ports": [
           {
             "name": "web",
-            "port": "${CLIENT_PORT}",
-            "targetPort": "${CLIENT_PORT}"
+            "port": "${{CLIENT_PORT}}",
+            "targetPort": "${{CLIENT_PORT}}"
           }
         ],
         "selector": {
@@ -91,7 +91,7 @@
                 "livenessProbe": {
                   "httpGet": {
                     "path": "/",
-                    "port": "${CLIENT_PORT}"
+                    "port": "${{CLIENT_PORT}}"
                   },
                   "initialDelaySeconds": 30,
                   "timeoutSeconds": 3
@@ -99,13 +99,13 @@
                 "name": "${APP_NAME}-client",
                 "ports": [
                   {
-                    "containerPort": "${CLIENT_PORT}"
+                    "containerPort": "${{CLIENT_PORT}}"
                   }
                 ],
                 "readinessProbe": {
                   "httpGet": {
                     "path": "/",
-                    "port": "${CLIENT_PORT}"
+                    "port": "${{CLIENT_PORT}}"
                   },
                   "initialDelaySeconds": 3,
                   "timeoutSeconds": 3

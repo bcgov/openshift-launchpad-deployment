@@ -62,8 +62,7 @@
           "git": {
             "uri": "${REPO}",
             "ref": "origin/${BRANCH}"
-          },
-          "contextDir": "server"
+          }
         },
         "strategy": {
           "type": "Docker"

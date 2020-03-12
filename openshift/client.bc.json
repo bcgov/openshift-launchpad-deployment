@@ -61,7 +61,6 @@
           }
         },
         "source": {
-          "contextDir": "client",
           "git": {
             "uri": "${REPO}",
             "ref": "origin/${BRANCH}"
