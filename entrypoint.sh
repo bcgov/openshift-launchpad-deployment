@@ -17,6 +17,7 @@ case "$INPUT_SCRIPT" in
       exit 1
     fi
     echo "Running custom deployment script $SCRIPT_PATH"
+    cd "$GITHUB_WORKSPACE"
     "$SCRIPT_PATH"
     exit 0 # Successfully ran custom script
     ;;
