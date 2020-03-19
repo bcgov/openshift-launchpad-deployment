@@ -1,5 +1,5 @@
 #!/bin/sh -l
-set -e # Exit on error
+set -xe # Exit on error
 
 # Files from action repo copied to /deployment dir on image build
 # Files from consuming repo are located in $GITHUB_WORKSPACE
