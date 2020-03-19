@@ -1,11 +1,33 @@
 #!/bin/sh -l
+set -e # Exit on error
 
-# Files from action repo copied to root dir on image creation
-# Files from consumer repo are located in $GITHUB_WORKSPACE
-cd /
+# Files from action repo copied to /deployment dir on image build
+# Files from consuming repo are located in $GITHUB_WORKSPACE
+cd /deployment
+
+# If a custom script has been provided, run it
+case "$INPUT_SCRIPT" in
+  "")
+    break
+    ;;
+  *)
+    SCRIPT_PATH="$GITHUB_WORKSPACE/$INPUT_SCRIPT"
+    if test -z "$GITHUB_WORKSPACE" || test ! -f "$SCRIPT_PATH"; then # Ensure script exists
+      echo "Unable to locate custom deployment script $SCRIPT_PATH"
+      exit 1
+    fi
+    echo "Running custom deployment script $SCRIPT_PATH"
+    "$SCRIPT_PATH"
+    exit 0 # Successfully ran custom script
+    ;;
+esac
 
 # Login to cluster
-oc login https://console.pathfinder.gov.bc.ca:8443 --token="$INPUT_AUTH_TOKEN"
+if test -z "$INPUT_CLUSTER" || test -z "$INPUT_AUTH_TOKEN"; then # Ensure valid login
+  echo "Please provide CLUSTER and AUTH_TOKEN inputs"
+  exit 1
+fi
+oc login "$INPUT_CLUSTER" --token="$INPUT_AUTH_TOKEN"
 
 # Clear previous builds including secrets & volume claims
 make oc-all-clean NAMESPACE=$INPUT_NAMESPACE APP_NAME=$INPUT_APP_NAME
@@ -18,9 +40,11 @@ sleep 30s
 # Run relevant make command, uses MODE input to select
 case "$INPUT_MODE" in
   "server")
+    echo "Running demo server deployment"
     make create-server NAMESPACE="$INPUT_NAMESPACE" APP_NAME="$INPUT_APP_NAME" REPO="https://github.com/$GITHUB_REPOSITORY" BRANCH="$INPUT_BRANCH" IMAGE_TAG=latest SERVER_PORT="$INPUT_SERVER_PORT"
     ;;
   "client")
+    echo "Running demo client deployment"
     make create-client NAMESPACE="$INPUT_NAMESPACE" APP_NAME="$INPUT_APP_NAME" API_URL="$INPUT_API_URL" REPO="https://github.com/$GITHUB_REPOSITORY" BRANCH="$INPUT_BRANCH" IMAGE_TAG=latest CLIENT_PORT="$INPUT_CLIENT_PORT"
     ;;
   *)

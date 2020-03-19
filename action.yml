@@ -17,6 +17,14 @@ inputs:
     description: Branch of the application repo that is to be deployed
     required: false
     default: master
+  CLUSTER:
+    description: The target OpenShift cluster
+    required: false
+    default: https://console.pathfinder.gov.bc.ca:8443
+  SCRIPT:
+    description: Custom script to 
+    required: false
+    default: ''
   SERVER_PORT:
     description: Port exposed by the server
     required: false

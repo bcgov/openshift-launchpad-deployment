@@ -1,3 +1,6 @@
+.git
+.gitignore
 README.md
+LICENSE
 action.yml
 Dockerfile
