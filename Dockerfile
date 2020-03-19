@@ -6,7 +6,7 @@ ARG GLIBC_VERSION=2.31-r0
 # Install GNU C Library & dependencies
 RUN wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub \
     && wget "https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VERSION}/glibc-${GLIBC_VERSION}.apk" \
-    && apk --no-cache add make ca-certificates "glibc-${GLIBC_VERSION}.apk" \
+    && apk --no-cache add make git ca-certificates "glibc-${GLIBC_VERSION}.apk" \
     && rm "glibc-${GLIBC_VERSION}.apk"
 
 # Install OpenShift CLI
