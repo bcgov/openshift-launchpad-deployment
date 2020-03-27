@@ -18,15 +18,9 @@ case "$INPUT_SCRIPT" in
     break
     ;;
   *)
-    SCRIPT_PATH="$GITHUB_WORKSPACE/$INPUT_SCRIPT"
-    SANS_ARGS=$(echo "$SCRIPT_PATH" | cut -d' ' -f1)
-    if test -z "$GITHUB_WORKSPACE" || test ! -f "$SANS_ARGS"; then # Ensure script exists
-      echo "Unable to locate custom deployment script $SANS_ARGS"
-      exit 1
-    fi
-    echo "Running custom deployment script $SCRIPT_PATH"
+    echo "Running custom deployment script $INPUT_SCRIPT"
     cd "$GITHUB_WORKSPACE"
-    eval "$SCRIPT_PATH"
+    eval "$INPUT_SCRIPT"
     exit 0 # Successfully ran custom script
     ;;
 esac
