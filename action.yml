@@ -25,6 +25,10 @@ inputs:
     description: Custom script to 
     required: false
     default: ''
+  SCRIPT_PARAMS:
+    description: Parameters passed onto custom script
+    required: false
+    default: ''
   SERVER_PORT:
     description: Port exposed by the server
     required: false

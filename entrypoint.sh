@@ -26,7 +26,7 @@ case "$INPUT_SCRIPT" in
     fi
     echo "Running custom deployment script $SCRIPT_PATH"
     cd "$GITHUB_WORKSPACE"
-    eval "$SCRIPT_PATH"
+    eval "$INPUT_SCRIPT_PARAMS $SCRIPT_PATH"
     exit 0 # Successfully ran custom script
     ;;
 esac
