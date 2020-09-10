@@ -75,6 +75,15 @@ This action accesses your OpenShift cluster on your behalf. To enable this acces
 3. Select Administration > Service Accounts > Create Service Account
 4. Edit the YAML to allow access to the desired namespace
 5. Within the newly created service account, select the secret that contains "token" in the name
-6. Click Copy to Clipboard
+6. Click Copy to Clipboard on the "TOKEN" data value
+
+The service account created will also need to have a role bound to it.
+1. From the OpenShift Cluster Console, select Administration > Role Bindings > Create Binding
+2. Give the role binding a name such as "GitHub Admin"
+3. Select the namespace that the service account was created in
+4. Select "admin" as the Role Name
+5. Select "Service Account" as the Subject
+6. Select the namespace of the service account and add its name as the Subject Name
+7. Click Create Binding
 
 This token can be saved as a GitHub secret in your repo. Navigate to Settings > Secrets and name the secret appropriately. Note that an OpenShift service account can have access to only one namespace. Depending on your workflow and CI/CD pipeline, you may need several service accounts and therefore secrets.
