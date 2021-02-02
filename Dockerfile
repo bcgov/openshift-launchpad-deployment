@@ -25,7 +25,7 @@ RUN mkdir -p ${GOPATH}/src ${GOPATH}/bin
 
 RUN apk add --no-cache krb5-dev
 
-# Install OpenShift CLI
+# Install OpenShift CLI?
 RUN wget --quiet "https://github.com/openshift/oc/archive/openshift-clients-4.6.0-202006250705.p0.tar.gz"
 RUN tar -xzf "openshift-clients-4.6.0-202006250705.p0.tar.gz"
 RUN cd oc-openshift-clients-4.6.0-202006250705.p0 && make oc
@@ -41,6 +41,8 @@ RUN rm -rf oc-openshift-clients-4.6.0-202006250705.p0
 # RUN mv oc /usr/local/bin/oc
 # RUN rm oc.tar
 # RUN oc version
+
+### Install OpenshiftCLI straight from git source as opposed to that weird download?
 
 # Action repo contents to /deployment dir
 COPY . /deployment
