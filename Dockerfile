@@ -14,33 +14,32 @@ RUN wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/s
 
 
 ### Install dependancies for oc cli, and then compile and install oc cli ###
-# Install Google Go
-RUN apk add --no-cache git musl-dev go
-# Configure Go
-ENV GOROOT /usr/lib/go
-ENV GOPATH /go
-ENV PATH /go/bin:$PATH
+## This works, but it's real slow:
 
-RUN mkdir -p ${GOPATH}/src ${GOPATH}/bin
+# # Install Google Go
+# RUN apk add --no-cache git musl-dev go
+# # Configure Go
+# ENV GOROOT /usr/lib/go
+# ENV GOPATH /go
+# ENV PATH /go/bin:$PATH
 
-RUN apk add --no-cache krb5-dev
+# RUN mkdir -p ${GOPATH}/src ${GOPATH}/bin
 
-# Install OpenShift CLI?
-RUN wget --quiet "https://github.com/openshift/oc/archive/openshift-clients-4.6.0-202006250705.p0.tar.gz"
-RUN tar -xzf "openshift-clients-4.6.0-202006250705.p0.tar.gz"
-RUN cd oc-openshift-clients-4.6.0-202006250705.p0 && make oc
-RUN mv oc-openshift-clients-4.6.0-202006250705.p0/oc /usr/local/bin/oc
-# RUN cd oc-openshift-clients-4.6.0-202006250705.p0 && ./oc version
-# RUN cd oc-openshift-clients-4.6.0-202006250705.p0 && ls
-RUN rm -rf oc-openshift-clients-4.6.0-202006250705.p0
+# RUN apk add --no-cache krb5-dev
+
+# # Install OpenShift CLI?
+# RUN wget --quiet "https://github.com/openshift/oc/archive/openshift-clients-4.6.0-202006250705.p0.tar.gz"
+# RUN tar -xzf "openshift-clients-4.6.0-202006250705.p0.tar.gz"
+# RUN cd oc-openshift-clients-4.6.0-202006250705.p0 && make oc
+# RUN mv oc-openshift-clients-4.6.0-202006250705.p0/oc /usr/local/bin/oc
+# RUN rm -rf oc-openshift-clients-4.6.0-202006250705.p0
 ###
 
 ### Download pre-compiled oc?
-# RUN wget https://downloads-openshift-console.apps.silver.devops.gov.bc.ca/amd64/linux/oc.tar
-# RUN tar -xf oc.tar
-# RUN mv oc /usr/local/bin/oc
-# RUN rm oc.tar
-# RUN oc version
+RUN wget --quiet https://downloads-openshift-console.apps.silver.devops.gov.bc.ca/amd64/linux/oc.tar
+RUN tar -xf oc.tar
+RUN mv oc /usr/local/bin/oc
+RUN rm oc.tar
 
 ### Install OpenshiftCLI straight from git source as opposed to that weird download?
 
