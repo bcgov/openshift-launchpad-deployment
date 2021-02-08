@@ -16,6 +16,9 @@ RUN wget --quiet -O oc.tar.gz "https://github.com/openshift/origin/releases/down
     && mv "$FILE" /usr/local/bin/oc \
     && rm -rf oc.tar.gz openshift-origin-client-tools-v*
 
+# Install jq
+RUN apk add jq
+
 # Action repo contents to /deployment dir
 COPY . /deployment
 
