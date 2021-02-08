@@ -25,7 +25,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Use Pipeline Action
-        uses: bcgov/openshift-launchpad-deployment@master
+        uses: bcgov/openshift-launchpad-deployment@v1.1
         with:
           MODE: server
           AUTH_TOKEN: ${{ secrets.AUTH_TOKEN }}

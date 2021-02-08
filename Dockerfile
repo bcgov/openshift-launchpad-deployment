@@ -35,7 +35,11 @@ RUN wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/s
 # RUN rm -rf oc-openshift-clients-4.6.0-202006250705.p0
 ###
 
-### Download pre-compiled oc?
+### Download pre-compiled oc client from silver.
+# Note : alternatives are: 
+# 1) building from scratch. This would be ideal, but since we don't have somewhere
+# to host the image, too slow.
+# 2) download some other packaged version.
 RUN wget --quiet https://downloads-openshift-console.apps.silver.devops.gov.bc.ca/amd64/linux/oc.tar
 RUN tar -xf oc.tar
 RUN mv oc /usr/local/bin/oc
