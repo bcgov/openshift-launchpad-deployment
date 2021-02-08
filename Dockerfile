@@ -1,7 +1,6 @@
 FROM alpine:3.11
 
 ARG GLIBC_VERSION=2.31-r0
-ARG OC_VERSION=openshift-clients-4.6.0-202006250705.p0
 
 # Install jq
 RUN apk add jq
