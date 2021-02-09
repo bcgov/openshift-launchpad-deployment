@@ -20,7 +20,7 @@ inputs:
   CLUSTER:
     description: The target OpenShift cluster
     required: false
-    default: https://console.pathfinder.gov.bc.ca:8443
+    default: https://api.silver.devops.gov.bc.ca:6443
   SCRIPT:
     description: Custom script to 
     required: false
