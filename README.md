@@ -1,5 +1,7 @@
 # OpenShift Launchpad CI/CD Pipeline
 
+[![img](https://img.shields.io/badge/Lifecycle-Retired-d45500)]
+
 This repo is a [GItHub Action](https://help.github.com/en/actions) that enables a GitHub repository to trigger a deployment to OpenShift. This is intended to be used to spin up a new environment when a new pull request is created or when code is pushed to or merged into a branch.
 
 This action was built specifically with [GitHub Flow](https://guides.github.com/introduction/flow/) and [Continuous Deployment](https://www.atlassian.com/continuous-delivery/continuous-deployment) in mind.
